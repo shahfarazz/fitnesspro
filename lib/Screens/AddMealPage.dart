@@ -72,6 +72,12 @@ class _AddMealPageState extends State<AddMealPage> {
         centerTitle: true,
         title: const Text('Add Meal'),
         backgroundColor: primaryColor,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/workout');
+          },
+        ),
       ),
       body: Form(
         key: _formKey,
