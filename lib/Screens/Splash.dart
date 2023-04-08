@@ -9,7 +9,6 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-
   bool isLogin = false;
 
   Future<bool> checkLogin() async {
@@ -28,16 +27,41 @@ class _SplashState extends State<Splash> {
     checkLogin();
     Future.delayed(
         const Duration(seconds: 3),
-            () => Navigator.of(context)
-            .pushNamedAndRemoveUntil((isLogin) ? '/home' : '/login', (Route<dynamic> route) => false));
+        () => Navigator.of(context).pushNamedAndRemoveUntil(
+            (isLogin) ? '/home' : '/login', (Route<dynamic> route) => false));
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: Text("Fitness Pro", style: TextStyle(color: Colors.white, fontSize: 40),),
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/logo.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Container(
+        color: Colors.white.withOpacity(0.9),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            Text(
+              'Fitness Pro',
+              style: TextStyle(
+                color: Color(0xFF4072B7),
+                fontWeight: FontWeight.w300,
+                fontSize: 40,
+                fontFamily: 'Supra',
+                decoration: TextDecoration.none,
+              ),
+            ),
+            SizedBox(height: 30),
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+            ),
+          ],
+        ),
       ),
     );
   }
