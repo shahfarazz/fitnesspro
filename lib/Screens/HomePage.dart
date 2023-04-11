@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Utils/colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -59,7 +58,7 @@ class _HomePageState extends State<HomePage> {
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      backgroundColor: primaryColor,
+      backgroundColor: Colors.lightBlue,
       title: const Text(
         "Do you really want to logout from the app?",
         style: TextStyle(color: Colors.white),
@@ -82,11 +81,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1C2227),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Home'),
-        backgroundColor: Color(0xFF2A2F37),
+        backgroundColor: Colors.lightBlue,
         actions: [
           IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
         ],
@@ -123,7 +122,7 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0),
       child: Material(
-        color: primaryColor,
+        color: Colors.teal[300],
         elevation: 4,
         borderRadius: BorderRadius.circular(20),
         child: InkWell(
@@ -146,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                 height: 10,
               ),
               const Text(
-                "Meal Planner",
+                "Diet Plan",
                 style: TextStyle(
                   fontSize: 24,
                   color: Colors.white,
@@ -166,7 +165,7 @@ class _HomePageState extends State<HomePage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Container(
-          color: Colors.black,
+          color: Colors.teal[300],
           child: Material(
             color: Colors.transparent,
             child: InkWell(
@@ -214,7 +213,7 @@ class _HomePageState extends State<HomePage> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Container(
-          color: Colors.black,
+          color: Colors.teal[400],
           child: Material(
             color: Colors.transparent,
             child: InkWell(
@@ -254,49 +253,48 @@ class _HomePageState extends State<HomePage> {
 
   Widget heightScaleWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          color: Colors.black,
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: _heightScale,
-              splashColor: Colors.black26,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage(
-                          'assets/images/height_scale.JPG',
+        padding: const EdgeInsets.only(left: 10.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            color: Colors.teal[500],
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: _heightScale,
+                splashColor: Colors.black26,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      height: 180,
+                      decoration: BoxDecoration(
+                        image: const DecorationImage(
+                          image: AssetImage(
+                            'assets/images/height_scale.JPG',
+                          ),
+                          fit: BoxFit.cover,
                         ),
-                        fit: BoxFit.cover,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      borderRadius: BorderRadius.circular(20),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    "Height Scale",
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(
+                      height: 10,
                     ),
-                  )
-                ],
+                    const Text(
+                      "Height Scale",
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
