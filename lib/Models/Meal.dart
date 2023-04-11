@@ -18,6 +18,7 @@ class Meal {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'day': day,
       'mealType': mealType,
       'mealDesc': mealDesc,

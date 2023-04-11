@@ -3,6 +3,7 @@ import 'package:fitnesspro/Models/Meal.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Utils/colors.dart';
 
@@ -20,6 +21,17 @@ class _AddMealPageState extends State<AddMealPage> {
   final timeController = TextEditingController();
   var _selectedDay;
   var _selectedMealType;
+
+  late FirebaseAuth auth;
+  late String uid;
+
+  @override
+  void initState() {
+    super.initState();
+    auth = FirebaseAuth.instance;
+    uid = auth.currentUser!.uid;
+  }
+
   List<String> listOfDays = [
     'Monday',
     'Tuesday',
@@ -34,6 +46,15 @@ class _AddMealPageState extends State<AddMealPage> {
   Future<void> _addMeal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? email = prefs.getString('email');
+
+    if (mealDescController.text.isEmpty) {
+      // check if meal description is empty
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter a meal description.')),
+      );
+      return; // prevent meal from being added
+    }
+
     Meal meal = Meal(
         id: 'random-id',
         day: _selectedDay,
@@ -41,7 +62,7 @@ class _AddMealPageState extends State<AddMealPage> {
         mealDesc: mealDescController.text,
         cal: calController.text.trim(),
         time: timeController.text.trim());
-    final db = FirebaseFirestore.instance.collection("Users").doc(email!);
+    final db = FirebaseFirestore.instance.collection("Users").doc(uid);
     db
         .collection("Days")
         .doc(_selectedDay)

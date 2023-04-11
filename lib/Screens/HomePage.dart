@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // function to go to WorkoutDiet page
-  void _workout() {
+  void _mealPlan() {
     Navigator.pushNamed(context, '/workout');
   }
 
@@ -82,10 +82,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF1C2227),
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Home'),
-        backgroundColor: primaryColor,
+        backgroundColor: Color(0xFF2A2F37),
         actions: [
           IconButton(icon: const Icon(Icons.logout), onPressed: _logout),
         ],
@@ -99,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Row(
               children: <Widget>[
-                workoutWidget(context),
+                mealPlannerWidget(context),
                 goalTrackerWidget(context),
               ],
             ),
@@ -118,7 +119,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget workoutWidget(BuildContext context) {
+  Widget mealPlannerWidget(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0),
       child: Material(
@@ -126,7 +127,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 4,
         borderRadius: BorderRadius.circular(20),
         child: InkWell(
-          onTap: _workout,
+          onTap: _mealPlan,
           splashColor: Colors.black26,
           borderRadius: BorderRadius.circular(20),
           child: Column(
@@ -145,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                 height: 10,
               ),
               const Text(
-                "Workout Diet",
+                "Meal Planner",
                 style: TextStyle(
                   fontSize: 24,
                   color: Colors.white,
@@ -261,7 +262,7 @@ class _HomePageState extends State<HomePage> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: _goalTrack,
+              onTap: _heightScale,
               splashColor: Colors.black26,
               child: Column(
                 mainAxisSize: MainAxisSize.min,

@@ -23,7 +23,7 @@ class _NewWorkoutPageState extends State<NewWorkoutPage> {
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Meal Planner'),
-          backgroundColor: primaryColor,
+          backgroundColor: const Color(0xFF4285F4),
           bottom: const TabBar(
             isScrollable: true,
             tabs: [
