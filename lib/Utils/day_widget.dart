@@ -83,6 +83,24 @@ class DayWidget extends StatelessWidget {
                             ),
                             const SizedBox(width: 8.0),
                             Icon(Icons.local_fire_department),
+                            const SizedBox(
+                                width: 8.0), // Add space between icons
+                            const Text(
+                              'Time:',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Text(
+                              meal.time.toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Icon(Icons.timer), // Add a timer icon
                           ],
                         ),
                       ],

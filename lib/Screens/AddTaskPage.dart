@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitnesspro/Models/Task.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,8 +22,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
   Future<void> _addTask() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? email = prefs.getString('email');
+    String uid =
+        FirebaseAuth.instance.currentUser!.uid; // get current user's uid
     Task task = Task(id: "random.id", task: taskController.text);
-    final db = FirebaseFirestore.instance.collection("Users").doc(email!);
+    final db = FirebaseFirestore.instance.collection("Users").doc(uid);
     db.collection("Pending").add(task.toMap()).then((result) => {
           Fluttertoast.showToast(
               msg: "Pending Task Added",
@@ -44,7 +47,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Task'),
-        backgroundColor: primaryColor,
+        backgroundColor: Color(0xFF4285F4),
       ),
       body: Form(
         key: _formKey,
@@ -85,7 +88,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   child: ElevatedButton(
                     onPressed: _addTask,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor,
+                      backgroundColor: Color(0xFF4285F4),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                     ),

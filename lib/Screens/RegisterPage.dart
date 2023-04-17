@@ -21,8 +21,13 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _isSubmitted = false;
   final fullnameController = TextEditingController();
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final ageController = TextEditingController();
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
   final passController = TextEditingController();
   final cpassController = TextEditingController();
+  String? uid;
 
   Future<void> signUp() async {
     if (passController.text.trim() == cpassController.text.trim()) {
@@ -32,6 +37,11 @@ class _RegisterPageState extends State<RegisterPage> {
           email: emailController.text.trim(),
           password: passController.text.trim(),
         );
+        final user = credential.user;
+        uid = user!.uid;
+
+        print("uid is------->$uid");
+        print(uid);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           Fluttertoast.showToast(
@@ -68,16 +78,27 @@ class _RegisterPageState extends State<RegisterPage> {
           fontSize: 16.0);
     }
     final Users users = Users(
-        fullname: fullnameController.text.trim(),
-        email: emailController.text.trim(),
-        password: passController.text.trim());
+      name: fullnameController.text.trim(),
+      email: emailController.text.trim(),
+      phoneNo: phoneController.text.trim(),
+      age: int.parse(ageController.text.trim()),
+      height: double.parse(heightController.text.trim()),
+      weight: double.parse(weightController.text.trim()),
+      password: passController.text.trim(),
+    );
+
     print("user id: ${FirebaseAuth.instance.currentUser?.uid}");
     final FirebaseFirestore db = FirebaseFirestore.instance;
-    db.collection("Users").doc(users.email).set(users.toMap());
+    db.collection("Users").doc(uid).set(users.toMap());
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('fullname', users.fullname);
+    await prefs.setString('fullname', users.name);
     await prefs.setString('email', users.email);
+    await prefs.setString('phone', users.phoneNo);
+    await prefs.setString('age', users.age.toString());
+    await prefs.setString('height', users.height.toString());
+    await prefs.setString('weight', users.weight.toString());
     await prefs.setString('password', users.password);
+
     Fluttertoast.showToast(
         msg: "Registered Successfully",
         toastLength: Toast.LENGTH_SHORT,
@@ -86,15 +107,14 @@ class _RegisterPageState extends State<RegisterPage> {
         backgroundColor: primaryColor,
         textColor: Colors.white,
         fontSize: 16.0);
-    // ignore: use_build_context_synchronously
     Navigator.of(context)
         .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
   }
 
   @override
   void initState() {
-    // TODO: implement initState
-
+    // auth = FirebaseAuth.instance;
+    // uid = auth.currentUser!.uid;
     super.initState();
   }
 
@@ -120,6 +140,14 @@ class _RegisterPageState extends State<RegisterPage> {
                         _buildFullNameField(),
                         const SizedBox(height: 20),
                         _buildEmailField(),
+                        const SizedBox(height: 20),
+                        _buildPhoneNoField(),
+                        const SizedBox(height: 20),
+                        _buildAgeField(),
+                        const SizedBox(height: 20),
+                        _buildHeightField(),
+                        const SizedBox(height: 20),
+                        _buildWeightField(),
                         const SizedBox(height: 20),
                         _buildPasswordField(),
                         const SizedBox(height: 20),
@@ -358,6 +386,169 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPhoneNoField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, bottom: 5.0),
+          child: Text(
+            'Phone Number',
+            style: TextStyle(fontSize: 15.0),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: TextFormField(
+            validator: (value) {
+              if (_isSubmitted && value!.isEmpty) {
+                return 'Please enter a value';
+              }
+              return null;
+            },
+            controller: phoneController,
+            keyboardType: TextInputType.phone,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: "Enter your Phone Number",
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAgeField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, bottom: 5.0),
+          child: Text(
+            'Age',
+            style: TextStyle(fontSize: 15.0),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: TextFormField(
+            validator: (value) {
+              if (_isSubmitted && value!.isEmpty) {
+                return 'Please enter a value';
+              }
+              return null;
+            },
+            controller: ageController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: "Enter your Age",
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeightField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, bottom: 5.0),
+          child: Text(
+            'Height',
+            style: TextStyle(fontSize: 15.0),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: TextFormField(
+            validator: (value) {
+              if (_isSubmitted && value!.isEmpty) {
+                return 'Please enter a value';
+              }
+              return null;
+            },
+            controller: heightController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: "Enter your Height (in cm)",
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWeightField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 20.0, bottom: 5.0),
+          child: Text(
+            'Weight',
+            style: TextStyle(fontSize: 15.0),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 5,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Colors.grey),
+          ),
+          child: TextFormField(
+            validator: (value) {
+              if (_isSubmitted && value!.isEmpty) {
+                return 'Please enter a value';
+              }
+              return null;
+            },
+            controller: weightController,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: "Enter your weight in kgs",
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

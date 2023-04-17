@@ -49,7 +49,7 @@ class _NewWorkoutPageState extends State<NewWorkoutPage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: primaryColor,
+          backgroundColor: Color(0xFF4285F4),
           onPressed: () {
             Navigator.pushNamed(context, '/add_meal');
           },

@@ -92,7 +92,7 @@ class _AddMealPageState extends State<AddMealPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Add Meal'),
-        backgroundColor: primaryColor,
+        backgroundColor: Color(0xFF4285F4),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -188,7 +188,7 @@ class _AddMealPageState extends State<AddMealPage> {
                   child: ElevatedButton(
                     onPressed: _addMeal,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor,
+                      backgroundColor: Color(0xFF4285F4),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                     ),
