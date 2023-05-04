@@ -25,7 +25,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   // function to go to HeightScale page
-  void _heightScale() {}
+  void _heightScale() {
+    //write code to call the height scale page
+    // Navigator.pushNamed(context, '/height_scale');
+  }
 
   // function to go to StepCounter page
   void _stepCounter() {
