@@ -30,6 +30,12 @@ class _HomePageState extends State<HomePage> {
     // Navigator.pushNamed(context, '/height_scale');
   }
 
+  //write a function below to call the exercise page
+  void _exercisePage() {
+    //write code to call the exercise page
+    Navigator.pushNamed(context, '/exercise_page');
+  }
+
   // function to go to StepCounter page
   void _stepCounter() {
     Navigator.pushNamed(context, '/step_counter');
@@ -100,204 +106,128 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: <Widget>[
-                mealPlannerWidget(context),
-                goalTrackerWidget(context),
-              ],
+            Center(
+              // Wrap with Center
+              child: Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceEvenly, // Space the widgets evenly
+                children: <Widget>[
+                  mealPlannerWidget(context),
+                  goalTrackerWidget(context),
+                ],
+              ),
             ),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              children: <Widget>[
-                stepCounterWidget(context),
-                heightScaleWidget(context),
-              ],
-            )
+            Center(
+              // Wrap with Center
+              child: Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceEvenly, // Space the widgets evenly
+                children: <Widget>[
+                  stepCounterWidget(context),
+                  heightScaleWidget(context),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Center(
+              // Wrap with Center
+              child: Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceEvenly, // Space the widgets evenly
+                children: <Widget>[
+                  exerciseMenuWidget(context),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget mealPlannerWidget(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20.0),
-      child: Material(
-        color: Colors.teal[300],
-        elevation: 4,
-        borderRadius: BorderRadius.circular(20),
-        child: InkWell(
-          onTap: _mealPlan,
-          splashColor: Colors.black26,
-          borderRadius: BorderRadius.circular(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Ink.image(
-                  image: const AssetImage('assets/images/workout_diet.JPG'),
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  height: 180,
-                  fit: BoxFit.cover,
+  Widget _adaptiveWidget(BuildContext context, String title, String imagePath,
+      VoidCallback onTap) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.45,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          double width = constraints.maxWidth;
+          double fontSize = MediaQuery.of(context).size.width *
+              0.04; // adjust this value to your needs
+
+          return Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                color: Colors.teal[300],
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: onTap,
+                    splashColor: Colors.black26,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: width,
+                          height: 180,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(imagePath),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: fontSize,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                "Diet Plan",
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
+  }
+
+  Widget mealPlannerWidget(BuildContext context) {
+    return _adaptiveWidget(
+        context, "Diet Plan", 'assets/images/workout_diet.JPG', _mealPlan);
   }
 
   Widget goalTrackerWidget(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          color: Colors.teal[300],
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: _goalTrack,
-              splashColor: Colors.black26,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage(
-                          'assets/images/goal_tracker.JPG',
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    "Goal Tracker",
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    return _adaptiveWidget(
+        context, "Goal Tracker", 'assets/images/goal_tracker.JPG', _goalTrack);
   }
 
   Widget stepCounterWidget(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          color: Colors.teal[400],
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: _stepCounter,
-              splashColor: Colors.black26,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/step_counter.JPG'),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Step Counter",
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+    return _adaptiveWidget(context, "Step Counter",
+        'assets/images/step_counter.JPG', _stepCounter);
   }
 
   Widget heightScaleWidget(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(left: 10.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            color: Colors.teal[500],
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: _heightScale,
-                splashColor: Colors.black26,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.45,
-                      height: 180,
-                      decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage(
-                            'assets/images/height_scale.JPG',
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      "Height Scale",
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ));
+    return _adaptiveWidget(context, "Height Scale",
+        'assets/images/height_scale.JPG', _heightScale);
+  }
+
+  Widget exerciseMenuWidget(BuildContext context) {
+    return _adaptiveWidget(context, "Exercises",
+        'assets/images/exercise_image.JPG', _exercisePage);
   }
 }

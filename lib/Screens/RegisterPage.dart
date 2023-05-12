@@ -217,6 +217,9 @@ class _RegisterPageState extends State<RegisterPage> {
               if (_isSubmitted && value!.isEmpty) {
                 return 'Please enter a value';
               }
+              if (_isSubmitted && _containsNumbers(value!)) {
+                return 'Numbers are not allowed';
+              }
               return null;
             },
             controller: fullnameController,
@@ -225,10 +228,16 @@ class _RegisterPageState extends State<RegisterPage> {
               hintText: "Enter your Full Name",
               hintStyle: TextStyle(color: Colors.grey),
             ),
+            keyboardType: TextInputType.text,
           ),
         ),
       ],
     );
+  }
+
+  bool _containsNumbers(String value) {
+    final regex = RegExp(r'\d');
+    return regex.hasMatch(value);
   }
 
   Widget _buildEmailField() {
@@ -256,6 +265,11 @@ class _RegisterPageState extends State<RegisterPage> {
             validator: (value) {
               if (_isSubmitted && value!.isEmpty) {
                 return 'Please enter a value';
+              }
+              // Add email validation
+              else if (!RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                  .hasMatch(value!)) {
+                return 'Please enter a valid email address';
               }
               return null;
             },
@@ -298,6 +312,18 @@ class _RegisterPageState extends State<RegisterPage> {
               if (_isSubmitted && value!.isEmpty) {
                 return 'Please enter a value';
               }
+              if (_isSubmitted && value!.length < 8) {
+                return 'Password must be at least 8 characters long';
+              }
+              if (_isSubmitted && !_hasSpecialCharacter(value!)) {
+                return 'Password must contain at least one special character';
+              }
+              if (_isSubmitted && !_hasUppercaseLetter(value!)) {
+                return 'Password must contain at least one uppercase letter';
+              }
+              if (_isSubmitted && !_hasNumber(value!)) {
+                return 'Password must contain at least one number';
+              }
               return null;
             },
             controller: passController,
@@ -311,6 +337,21 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ],
     );
+  }
+
+  bool _hasSpecialCharacter(String value) {
+    final regex = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+    return regex.hasMatch(value);
+  }
+
+  bool _hasUppercaseLetter(String value) {
+    final regex = RegExp(r'[A-Z]');
+    return regex.hasMatch(value);
+  }
+
+  bool _hasNumber(String value) {
+    final regex = RegExp(r'[0-9]');
+    return regex.hasMatch(value);
   }
 
   Widget _buildConfirmPasswordField() {
@@ -415,6 +456,9 @@ class _RegisterPageState extends State<RegisterPage> {
               if (_isSubmitted && value!.isEmpty) {
                 return 'Please enter a value';
               }
+              if (_isSubmitted && !_isNumeric(value!)) {
+                return 'Phone number must contain only digits';
+              }
               return null;
             },
             controller: phoneController,
@@ -428,6 +472,11 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ],
     );
+  }
+
+  bool _isNumeric(String value) {
+    final regex = RegExp(r'^[0-9]+$');
+    return regex.hasMatch(value);
   }
 
   Widget _buildAgeField() {
@@ -456,6 +505,13 @@ class _RegisterPageState extends State<RegisterPage> {
               if (_isSubmitted && value!.isEmpty) {
                 return 'Please enter a value';
               }
+              if (_isSubmitted && !_isPositiveInteger(value!)) {
+                return 'Please enter a valid age';
+              }
+              final age = int.parse(value!);
+              if (age < 14 || age > 120) {
+                return 'Age must be between 14 and 120';
+              }
               return null;
             },
             controller: ageController,
@@ -471,12 +527,17 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  bool _isPositiveInteger(String value) {
+    final regex = RegExp(r'^[1-9]\d*$');
+    return regex.hasMatch(value);
+  }
+
   Widget _buildHeightField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0, bottom: 5.0),
+        const Padding(
+          padding: EdgeInsets.only(left: 20.0, bottom: 5.0),
           child: Text(
             'Height',
             style: TextStyle(fontSize: 15.0),
@@ -496,6 +557,13 @@ class _RegisterPageState extends State<RegisterPage> {
             validator: (value) {
               if (_isSubmitted && value!.isEmpty) {
                 return 'Please enter a value';
+              }
+              if (_isSubmitted && !_isPositiveInteger(value!)) {
+                return 'Please enter a valid height (in cm)';
+              }
+              final height = int.parse(value!);
+              if (height < 50 || height > 300) {
+                return 'Height must be between 50cm and 300cm';
               }
               return null;
             },
@@ -538,17 +606,30 @@ class _RegisterPageState extends State<RegisterPage> {
               if (_isSubmitted && value!.isEmpty) {
                 return 'Please enter a value';
               }
+              if (_isSubmitted && !_isPositiveFloat(value!)) {
+                return 'Please enter a valid weight (in kg)';
+              }
+              final weight = double.parse(value!);
+              if (weight <= 0 || weight > 500) {
+                return 'Weight must be between 0kg and 500kg';
+              }
               return null;
             },
             controller: weightController,
+            keyboardType: TextInputType.number,
             decoration: const InputDecoration(
               border: InputBorder.none,
-              hintText: "Enter your weight in kgs",
+              hintText: "Enter your weight in kg",
               hintStyle: TextStyle(color: Colors.grey),
             ),
           ),
         ),
       ],
     );
+  }
+
+  bool _isPositiveFloat(String value) {
+    final regex = RegExp(r'^[0-9]*(\.[0-9]+)?$');
+    return regex.hasMatch(value);
   }
 }

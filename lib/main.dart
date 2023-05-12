@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fitnesspro/Screens/AddMealPage.dart';
 import 'package:fitnesspro/Screens/AddTaskPage.dart';
+import 'package:fitnesspro/Screens/ExercisePage.dart';
 import 'package:fitnesspro/Screens/HomePage.dart';
 import 'package:fitnesspro/Screens/newWorkoutPage.dart';
 import 'package:fitnesspro/Screens/Splash.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/track_goal': (context) => const TrackGoalPage(),
         '/add_task': (context) => const AddTaskPage(),
         '/step_counter': (context) => const StepCounterPage(),
+        '/exercise_page': (context) => const ExercisePage(),
       },
       theme: ThemeData(
           primaryColor: primaryColor,
